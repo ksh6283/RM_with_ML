@@ -104,7 +104,7 @@ if __name__ == "__main__":
         "media-microsvc": "nginx",
     }[app]
     nodes_for_test = [
-        "minikube",
+        "node6", "node7"
     ]
     yaml_repo = {
         "hotel-reserv": "yamlRepository/hotelReservation",

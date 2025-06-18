@@ -4,11 +4,10 @@ yaml_repo_path: yamlRepository/hotelReservation
 namespace: hotel-reserv
 app_img: nicklin9907/erms:hotelreservation-1.0
 nodes_for_test:
-- masternode
 - node6
 - node7
 
-prometheus_host: http://<CLUSTER_IP>:30090
+prometheus_host: http://<PROMETHEUS_IP>:30090
 nodes_for_infra:
 - masternode
 - node6

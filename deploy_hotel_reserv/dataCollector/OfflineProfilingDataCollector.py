@@ -316,6 +316,8 @@ class OfflineProfilingDataCollector:
 
         print(f"[✓] 분리 저장됨 → simple: {len(simple_df)} rows, complex: {len(complex_df)} rows")
 
+        return True, merged_df, None
+
         # **NEW**: Ensure the output directory exists for the given throughput, epoch, and graph type
         
 

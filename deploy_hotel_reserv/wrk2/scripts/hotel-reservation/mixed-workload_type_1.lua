@@ -34,7 +34,7 @@ local function search_hotel()
   local lon = -122.095 + (math.random(0, 325) - 157.0)/1000.0
 
   local method = "GET"
-  local path = "http://localhost:5000/hotels?inDate=" .. in_date_str .. 
+  local path = "http://<CLUSTER_IP>:30096/hotels?inDate=" .. in_date_str .. 
     "&outDate=" .. out_date_str .. "&lat=" .. tostring(lat) .. "&lon=" .. tostring(lon)
 
   local headers = {}
