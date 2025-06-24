@@ -1,7 +1,7 @@
 #!/bin/bash
 
 prepare_dir() {
-    mkdir -p data/CallGraph
+    mkdir -p data/CallGraph/tmp
 }
 
 # $1 = start_day, $2 = end_day
@@ -9,6 +9,9 @@ prepare_dir() {
 fetch_data() {
     file_prefix="data/CallGraph/CallGraph"
     remote_prefix="CallGraph/CallGraph"
+    tmp_dir="data/CallGraph/tmp"
+    output_file="data/CallGraph/merged_callgraph.csv"
+
     ratio=3  # 3분 단위로 저장됨
 
     start_min=$(($1 * 24 * 60 + $3 * 60))
@@ -17,12 +20,38 @@ fetch_data() {
     start_idx=$(($start_min / $ratio))
     end_idx=$(($end_min / $ratio - 1))
 
+    echo "[INFO] Downloading and extracting indices from $start_idx to $end_idx..."
+
+    rm -f "$output_file"  # 기존 결과 삭제
+    header_saved=0
+
     for idx in $(seq $start_idx $end_idx); do
         file_name="${file_prefix}_$idx.tar.gz"
         remote_path="${remote_prefix}_$idx.tar.gz"
         url="https://aliopentrace.oss-cn-beijing.aliyuncs.com/v2022MicroservicesTraces/$remote_path"
-        wget -c --retry-connrefused --tries=0 --timeout=50 -O $file_name $url
+
+        echo "[INFO] Downloading $file_name ..."
+        wget -q --retry-connrefused --tries=0 --timeout=50 -O "$file_name" "$url"
+
+        if [ -f "$file_name" ]; then
+            tar -xzf "$file_name" -C "$tmp_dir"
+
+            for csv_file in "$tmp_dir"/*.csv; do
+                if [ $header_saved -eq 0 ]; then
+                    head -n 1 "$csv_file" > "$output_file"
+                    header_saved=1
+                fi
+                tail -n +2 "$csv_file" >> "$output_file"
+            done
+
+            rm -f "$file_name"
+            rm -f "$tmp_dir"/*.csv
+        else
+            echo "[WARN] File $file_name not found or download failed."
+        fi
     done
+
+    echo "[DONE] Merged CSV saved to $output_file"
 }
 
 # Parse arguments (e.g., start_date=0d0 end_date=1d0)
