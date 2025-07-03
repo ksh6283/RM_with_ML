@@ -115,16 +115,13 @@ for i in tqdm(range(total_windows), desc="Building window distribution"):
     if count > 0:
         arg_array[i] = np.array(arg_counts[i], dtype=np.float32) / count
         graph_array[i] = np.array(graph_counts[i], dtype=np.float32) / count
-    # else는 이미 0으로 초기화되어 있음
 
-# 부하 정규화
 max_load = max(load_counts) if max(load_counts) > 0 else 1
 load_array = (np.array(load_counts, dtype=np.float32) / max_load).reshape(-1, 1)
 
 # 최종 입력 벡터
 full_vector = np.concatenate([arg_array, graph_array, load_array], axis=1)  # shape: (T, A+G+1)
 
-# === 시퀀스 생성 + 배치 처리 ===
 l = 5
 arg_dim = arg_array.shape[1]
 graph_dim = graph_array.shape[1]

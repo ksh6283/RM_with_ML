@@ -63,7 +63,7 @@ ood_df = df[df["traceid"].progress_apply(lambda x: x in ood_trace_ids)]
 
 
 
-filtered_df.to_parquet("./sample_data/top36_filtered_trace_data.parquet", engine="fastparquet")
+filtered_df.to_parquet("./sample_data/graph_filtered_trace_data.parquet", engine="fastparquet")
 ood_df.to_parquet("./sample_data/ood_trace_data.parquet", engine="fastparquet")
 print(f"Saved filtered trace data: {filtered_df.shape}")
 print(f"Saved OOD trace data: {ood_df.shape}")

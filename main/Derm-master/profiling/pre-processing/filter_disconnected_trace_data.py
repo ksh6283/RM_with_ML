@@ -4,12 +4,12 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import time
 
-# Step 1: Convert CSV to Parquet
+# Convert CSV to Parquet
 def csv_to_parquet(csv_path, parquet_path):
     chunksize = 1_000_000  
     writer = None
     
-    print(f"[STEP 1] Converting {csv_path} to {parquet_path} ...")
+    print(f"Converting {csv_path} to {parquet_path} ...")
     for i, chunk in enumerate(pd.read_csv(
         csv_path,
         dtype=str,
@@ -25,9 +25,9 @@ def csv_to_parquet(csv_path, parquet_path):
 
     if writer:
         writer.close()
-    print("[STEP 1] Conversion complete.\n")
+    print("Conversion complete.\n")
 
-# Step 2: Sanity Check Function
+# Sanity Check Function
 def sanity_check(group):   
     if not (group['rpc_id'] == '0').any():
         return False
@@ -50,9 +50,9 @@ def sanity_check(group):
 
     return prefixes.issubset(rpc_ids)
 
-# Step 3: Filter valid traces and save to CSV
+# Filter valid traces and save to Parquet
 def filter_valid_traces(parquet_output, valid_output):
-    print(f"[STEP] Streaming valid traces from {parquet_output}")
+    print(f"Streaming valid traces from {parquet_output}")
     start_time = time.time()
 
     parquet_file = pq.ParquetFile(parquet_output)
@@ -76,21 +76,20 @@ def filter_valid_traces(parquet_output, valid_output):
                 writer = pq.ParquetWriter(valid_output, table.schema, compression='snappy')
             writer.write_table(table)
 
-        print(f"[Row group {i}] 처리 완료")
+        print(f"[Row group {i}] ")
 
     if writer:
         writer.close()
-        print(f"[STEP] Saved valid traces to {valid_output}")
+        print(f"Saved valid traces to {valid_output}")
     else:
-        print("[STEP] No valid traces found.")
+        print("No valid traces found.")
 
-    print(f"[DONE] Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(time.time() - start_time))}")
+    print(f"Elapsed time: {time.strftime('%H:%M:%S', time.gmtime(time.time() - start_time))}")
 
-# ===== 실행 =====
 csv_input = "./sample_data/data_origin.csv"
 parquet_output = "./sample_data/data_origin.parquet"
 valid_output = "./sample_data/valid_traces.parquet"
 
 os.makedirs("./sample_data", exist_ok=True)
-# csv_to_parquet(csv_input, parquet_output)
+csv_to_parquet(csv_input, parquet_output)
 filter_valid_traces(parquet_output, valid_output)
