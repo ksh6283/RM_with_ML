@@ -6,12 +6,28 @@ import random
 import requests
 import time
 
+
+login_response = requests.post(
+    url="http://<CLUSTER_IP>:31855/login",
+    headers={"Content-Type": "application/json", "Cookie": "YsbCaptcha=1234"},
+    json={
+        "email": "fdse_microservices@163.com",
+        "password": "DefaultPassword",
+        "verificationCode": "1234",
+        "token":"<REDACTED_TOKEN>"
+    }
+)
+
+login_json = login_response.json()
+token = login_json["token"]  # loginToken
+uuid = login_json["account"]["id"]
+
 logger = logging.getLogger("query_and_preserve")
 # The UUID of user fdse_microservice is that
 uuid = "4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"
 date = time.strftime("%Y-%m-%d", time.localtime())
 
-base_address = "http://<CLUSTER_IP>:32677"
+base_address = "http://<CLUSTER_IP>:31855"
 
 
 def query_and_preserve(headers):
@@ -33,13 +49,13 @@ def query_and_preserve(headers):
         end = "Su Zhou"
         high_speed_place_pair = (start, end)
         trip_ids = _query_high_speed_ticket(place_pair=high_speed_place_pair, headers=headers, time=date)
-        PRESERVE_URL = f"{base_address}/api/v1/preserveservice/preserve"
+        PRESERVE_URL = f"{base_address}/preserve"
     else:
         start = "Shang Hai"
         end = "Nan Jing"
         other_place_pair = (start, end)
         trip_ids = _query_normal_ticket(place_pair=other_place_pair, headers=headers, time=date)
-        PRESERVE_URL = f"{base_address}/api/v1/preserveotherservice/preserveOther"
+        PRESERVE_URL = f"{base_address}/preserveOther"
 
     _ = _query_assurances(headers=headers)
     food_result = _query_food(headers=headers)
@@ -104,7 +120,7 @@ def query_and_preserve(headers):
 if __name__ == '__main__':
     headers = {
         "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
-        "Authorization": "Bearer <REDACTED_JWT>",
+        "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
     }
 
