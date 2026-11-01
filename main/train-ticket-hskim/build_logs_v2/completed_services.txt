@@ -1,6 +1,0 @@
-ts-admin-basic-info-service
-ts-admin-order-service
-ts-admin-route-service
-ts-admin-travel-service
-ts-admin-user-service
-ts-assurance-service

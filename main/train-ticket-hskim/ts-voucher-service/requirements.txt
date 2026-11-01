@@ -1,5 +1,0 @@
-tornado
-cryptography
-mysql-connector-python
-mysql.connector
-pymysql
