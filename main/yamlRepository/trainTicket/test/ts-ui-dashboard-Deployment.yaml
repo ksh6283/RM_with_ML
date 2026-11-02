@@ -34,7 +34,7 @@ spec:
             cpu: 1000m
           requests:
             cpu: 100m
-      nodeName: node6
+      nodeName: ${FRONTEND_NODE}
       tolerations:
       - key: "node-role.kubernetes.io/control-plane"
         operator: "Exists"

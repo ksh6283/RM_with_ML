@@ -13,7 +13,7 @@ local function recommend()
   local lon = -122.095 + (math.random(0, 325) - 157.0)/1000.0
 
   local method = "GET"
-  local path = "http://<CLUSTER_IP>:30096/recommendations?require=" .. req_param .. 
+  local path = "http://" .. os.getenv("CLUSTER_HOST") .. ":30096/recommendations?require=" .. req_param .. 
     "&lat=" .. tostring(lat) .. "&lon=" .. tostring(lon)
   local headers = {}
   -- headers["Content-Type"] = "application/x-www-form-urlencoded"

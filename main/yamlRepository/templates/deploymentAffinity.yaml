@@ -4,6 +4,4 @@ nodeAffinity:
     - matchExpressions:
       - key: kubernetes.io/hostname
         operator: In
-        values: 
-        - node6
-        - node7
+        values: %%%

@@ -1,25 +1,32 @@
 from typing import List
+import os
+import sys
 import requests
 import logging
 import time
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from local_env import env
+
 logger = logging.getLogger("atomic_queries")
-base_address = "http://<TRAIN_TICKET_HOST>:31000"
+base_address = env("TRAIN_TICKET_URL")
+token = env("TRAIN_TICKET_TOKEN", "")
 
 headers = {
-    "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
-    "Authorization": "Bearer <REDACTED_JWT>",
+    "Cookie": env("TRAIN_TICKET_COOKIE", ""),
+    "Authorization": f"Bearer {token}",
     "Content-Type": "application/json",
     "Connection": "close"
 }
 
-# The UUID of fdse_microservice is that
-uuid = "4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"
+uuid = env("TRAIN_TICKET_USER_UUID")
 
 date = time.strftime("%Y-%m-%d", time.localtime())
 
 
-def _login(username="fdse_microservice", password="111111"):
+def _login(username=None, password=None):
+    username = username or env("TRAIN_TICKET_USER")
+    password = password or env("TRAIN_TICKET_PASSWORD")
     url = f"{base_address}/api/v1/users/login"
 
     cookies = {
@@ -517,5 +524,5 @@ def _query_admin_travel(headers):
 
 
 if __name__ == '__main__':
-    _, token = _login(username="admin", password="222222")
+    _, token = _login(username=env("TRAIN_TICKET_ADMIN_USER"), password=env("TRAIN_TICKET_ADMIN_PASSWORD"))
     print(token)

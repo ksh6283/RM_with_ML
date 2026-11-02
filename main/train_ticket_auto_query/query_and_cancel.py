@@ -1,8 +1,9 @@
+from atomic_queries import headers as default_headers, env
 from atomic_queries import _query_orders, _cancel_one_order
 from utils import random_form_list
 
 
-def query_one_and_cancel(headers, uuid="4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"):
+def query_one_and_cancel(headers, uuid=env("TRAIN_TICKET_USER_UUID")):
     """
     查询order并取消order
     :param uuid:
@@ -28,12 +29,7 @@ def query_one_and_cancel(headers, uuid="4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"):
 
 
 if __name__ == '__main__':
-    headers = {
-        "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
-        "Authorization": "Bearer <REDACTED_JWT>",
-        "Content-Type": "application/json"
-    }
-    uuid = "4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"
+    headers = dict(default_headers)
 
     query_one_and_cancel(headers=headers,
-                         uuid=uuid,)
+                         uuid=env("TRAIN_TICKET_USER_UUID"),)

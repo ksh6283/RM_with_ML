@@ -1,4 +1,5 @@
-from atomic_queries import _query_high_speed_ticket, _query_normal_ticket, _query_assurances, _query_food, _query_contacts
+from atomic_queries import _query_high_speed_ticket, _query_normal_ticket, _query_assurances, _query_food, _query_contacts, \
+    base_address, uuid, env
 from utils import random_boolean, random_phone, random_str, random_form_list
 
 import logging
@@ -8,11 +9,11 @@ import time
 
 
 login_response = requests.post(
-    url="http://<CLUSTER_IP>:31855/login",
+    url=f"{base_address}/login",
     headers={"Content-Type": "application/json", "Cookie": "YsbCaptcha=1234"},
     json={
-        "email": "fdse_microservices@163.com",
-        "password": "DefaultPassword",
+        "email": env("TRAIN_TICKET_EMAIL"),
+        "password": env("TRAIN_TICKET_EMAIL_PASSWORD"),
         "verificationCode": "1234",
         "token":"<REDACTED_TOKEN>"
     }
@@ -20,14 +21,9 @@ login_response = requests.post(
 
 login_json = login_response.json()
 token = login_json["token"]  # loginToken
-uuid = login_json["account"]["id"]
 
 logger = logging.getLogger("query_and_preserve")
-# The UUID of user fdse_microservice is that
-uuid = "4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"
 date = time.strftime("%Y-%m-%d", time.localtime())
-
-base_address = "http://<CLUSTER_IP>:31855"
 
 
 def query_and_preserve(headers):
@@ -119,7 +115,7 @@ def query_and_preserve(headers):
 
 if __name__ == '__main__':
     headers = {
-        "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
+        "Cookie": env("TRAIN_TICKET_COOKIE", ""),
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
     }

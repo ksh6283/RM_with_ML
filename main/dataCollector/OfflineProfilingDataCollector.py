@@ -39,7 +39,7 @@ class OfflineProfilingDataCollector:
         Args:
             namespace (str): Namespace
             duration (int): Duration of each round of test
-            jaegerHost (str): Address to access jaeger, e.g. http://<CLUSTER_IP>:16686
+            jaegerHost (str): Address to access jaeger, e.g. http://<CLUSTER_HOST>:16686
             entryPoint (str): The entry point service of the test
             prometheusHost (str): Address to access Prometheus, similar to jaegerHost
             mointorInterval (str): Prometheus monitor interval

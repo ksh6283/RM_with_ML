@@ -1,6 +1,6 @@
 import time
 
-from atomic_queries import _query_orders, _pay_one_order
+from atomic_queries import _query_orders, _pay_one_order, headers
 from utils import random_form_list
 
 
@@ -21,15 +21,6 @@ def query_order_and_pay(headers, pairs):
 
 
 if __name__ == '__main__':
-    cookie = "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>"
-    Authorization = "<REDACTED_JWT>"
-    headers = {
-        'Connection': 'close',
-        "Cookie": f"{cookie}",
-        "Authorization": f"Bearer {Authorization}",
-        "Content-Type": "application/json"
-    }
-
     start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     pairs = _query_orders(headers=headers, types=tuple([0, 1]))

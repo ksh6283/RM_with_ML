@@ -1,8 +1,6 @@
-from atomic_queries import _query_orders, _collect_one_order, _login, _rebook_ticket
+from atomic_queries import _query_orders, _collect_one_order, _login, _rebook_ticket, headers
 from utils import random_form_list
 import time
-
-base_address = "http://<TRAIN_TICKET_HOST>:32677"
 
 
 def query_and_rebook(headers):
@@ -32,11 +30,6 @@ def query_and_rebook(headers):
 if __name__ == '__main__':
     _, token = _login()
 
-    headers = {
-        "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
-        "Authorization": "Bearer <REDACTED_JWT>",
-        "Content-Type": "application/json"
-    }
     headers["Authorization"] = "Bearer " + token
     
     start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())

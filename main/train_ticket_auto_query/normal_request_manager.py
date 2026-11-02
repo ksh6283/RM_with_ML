@@ -1,3 +1,4 @@
+from atomic_queries import headers as default_headers
 from query_and_preserve import query_and_preserve
 from query_order_and_pay import query_order_and_pay
 from query_and_collect_ticket import query_and_collect_ticket
@@ -13,11 +14,7 @@ from threading import Thread
 
 
 def main():
-    headers = {
-        "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
-        "Authorization": "Bearer <REDACTED_JWT>",
-        "Content-Type": "application/json"
-    }
+    headers = dict(default_headers)
 
     for i in range(30):
         now_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -60,11 +57,7 @@ def main_thread():
 
 
 def query_order():
-    headers = {
-        "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
-        "Authorization": "Bearer <REDACTED_JWT>",
-        "Content-Type": "application/json"
-    }
+    headers = dict(default_headers)
     uid, token = _login()
     if uid is not None and token is not None:
         headers['Authorization'] = "Bearer " + token
@@ -81,11 +74,7 @@ def query_order():
 
 
 def query_tickets():
-    headers = {
-        "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
-        "Authorization": "Bearer <REDACTED_JWT>",
-        "Content-Type": "application/json"
-    }
+    headers = dict(default_headers)
     uid, token = _login()
     if uid is not None and token is not None:
         headers['Authorization'] = "Bearer " + token

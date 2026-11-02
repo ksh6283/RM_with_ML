@@ -15,10 +15,18 @@ if os.name == "nt":
 
     colorama.init()
 
+from local_env import expand
+
 app = os.environ.get("ERMS_APP", "train")
 
-GLOBAL_CONFIG = Box.from_yaml(filename=f"configs/{app}-global.yaml")
-TESTING_CONFIG = Box.from_yaml(filename=f"configs/{app}-testing.yaml")
+
+def _load_config(filename):
+    with open(filename) as file:
+        return Box.from_yaml(yaml_string=expand(file.read()))
+
+
+GLOBAL_CONFIG = _load_config(f"configs/{app}-global.yaml")
+TESTING_CONFIG = _load_config(f"configs/{app}-testing.yaml")
 # FITTING_CONFIG = Box.from_yaml(filename="configs/fitting.yaml")
 # SCALING_CONFIG = Box.from_yaml(filename="configs/scaling.yaml")
 

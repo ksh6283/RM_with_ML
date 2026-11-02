@@ -23,30 +23,30 @@ workload_config:
       connection_num: 1
       throughput: 5
       script_path: wrk2/scripts/hotel-reservation/reserve.lua
-      url: http://<CLUSTER_IP>:30096
+      url: http://${CLUSTER_HOST}:30096
     Recommendation:
       max_clients: 3
       thread_num: 2
       connection_num: 4
       throughput: 100
       script_path: wrk2/scripts/hotel-reservation/recommendation.lua
-      url: http://<CLUSTER_IP>:30096
+      url: http://${CLUSTER_HOST}:30096
     Search:
       max_clients: 3
       thread_num: 2
       connection_num: 4
       throughput: 100
       script_path: wrk2/scripts/hotel-reservation/search.lua
-      url: http://<CLUSTER_IP>:30096
+      url: http://${CLUSTER_HOST}:30096
     Login:
       max_clients: 20
       thread_num: 2
       connection_num: 4
       throughput: 8
       script_path: wrk2/scripts/hotel-reservation/login.lua
-      url: http://<CLUSTER_IP>:30096
+      url: http://${CLUSTER_HOST}:30096
 collector_config:
-  jaeger_host: http://<CLUSTER_IP>:30095
+  jaeger_host: http://${CLUSTER_HOST}:30095
   entry_point: frontend
   max_traces: 100000
   monitor_interval: 1

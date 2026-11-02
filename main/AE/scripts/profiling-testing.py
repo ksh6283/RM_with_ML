@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 import time
 from configs import log
+from local_env import env
 from dataCollector.OfflineProfilingDataCollector import OfflineProfilingDataCollector
 from deployment.deployer import Deployer
 from workloadGenerator.staticWorkload import StaticWorkloadGenerator
@@ -93,19 +94,18 @@ if __name__ == "__main__":
         }[app]
     else:
         service = [service]
+    cluster_host = env("CLUSTER_HOST")
     jaeger_host = {
-        "hotel-reserv": "http://<CLUSTER_IP>:30095",
-        "sociel-network": "http://<CLUSTER_IP>:30094",
-        "media-microsvc": "http://<CLUSTER_IP>:30093",
+        "hotel-reserv": f"http://{cluster_host}:30095",
+        "sociel-network": f"http://{cluster_host}:30094",
+        "media-microsvc": f"http://{cluster_host}:30093",
     }[app]
     entry_point = {
         "hotel-reserv": "frontend",
         "sociel-network": "nginx-web-server",
         "media-microsvc": "nginx",
     }[app]
-    nodes_for_test = [
-        "node6", "node7"
-    ]
+    nodes_for_test = env("NODES_FOR_TEST").split(",")
     yaml_repo = {
         "hotel-reserv": "yamlRepository/hotelReservation",
         "social-network": "yamlRepository/socialNetwork",
@@ -187,9 +187,9 @@ if __name__ == "__main__":
         },
     }[app]
     url = {
-        "hotel-reserv": "http://<CLUSTER_IP>:30096",
-        "social-network": "http://<CLUSTER_IP>:30628",
-        "media-microsvc": "http://<CLUSTER_IP>:30092",
+        "hotel-reserv": f"http://{cluster_host}:30096",
+        "social-network": f"http://{cluster_host}:30628",
+        "media-microsvc": f"http://{cluster_host}:30092",
     }[app]
     DEPLOYER = Deployer(namespace, 0.1, "100Mi", nodes_for_test, yaml_repo, app_img)
 
@@ -208,7 +208,7 @@ if __name__ == "__main__":
         namespace,
         jaeger_host,
         entry_point,
-        "http://<CLUSTER_IP>:30090",
+        env("PROMETHEUS_URL", f"http://{cluster_host}:30090"),
         nodes_for_test,
         data_path,
         duration=80,

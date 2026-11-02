@@ -1,6 +1,6 @@
 import time
 
-from atomic_queries import _query_orders_all_info, _put_consign
+from atomic_queries import _query_orders_all_info, _put_consign, headers
 from utils import random_form_list
 
 
@@ -22,16 +22,6 @@ def query_one_and_put_consign(headers, pairs):
 
 
 if __name__ == '__main__':
-    cookie = "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>"
-    Authorization = "<REDACTED_JWT>"
-    headers = {
-        'Connection': 'close',
-        "Cookie": f"{cookie}",
-        "Authorization": f"Bearer {Authorization}",
-        "Content-Type": "application/json"
-    }
-    uuid = "4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"
-
     start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     pairs = _query_orders_all_info(headers=headers)

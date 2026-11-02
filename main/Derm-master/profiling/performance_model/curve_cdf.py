@@ -5,8 +5,12 @@ from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.stats import entropy
 import os
+import sys
 import time
 from collections import namedtuple, defaultdict
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
+from local_env import env
 
 mpl.rcParams.update(mpl.rcParamsDefault)
 
@@ -237,10 +241,11 @@ def collect_parameters(data_folder: str, service_name: str):
     
 
 
+data_path = env("DERM_DATA_PATH")
 for i in parent_services:
-    collect_parameters("/home/<user>/RM_with_ML/deploy_hotel_reserv/AE/data/data_hotel-reserv/offlineTestResult",i)
+    collect_parameters(data_path, i)
 for i in child_services:
-    collect_parameters("/home/<user>/RM_with_ML/deploy_hotel_reserv/AE/data/data_hotel-reserv/offlineTestResult",i)
+    collect_parameters(data_path, i)
     
 
 

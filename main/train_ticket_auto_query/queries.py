@@ -13,6 +13,8 @@ from urllib.parse import urljoin
 import requests
 import logging
 
+from local_env import env
+
 logger = logging.getLogger("auto-queries")
 
 class Query:
@@ -27,7 +29,9 @@ class Query:
             'User-Agent': 'curl/7.68.0',
         })
 
-    def login(self, email="fdse_microservices@163.com", password="DefaultPassword") -> bool:
+    def login(self, email=None, password=None) -> bool:
+        email = email or env("TRAIN_TICKET_EMAIL")
+        password = password or env("TRAIN_TICKET_EMAIL_PASSWORD")
         # Step 1: 먼저 ts-login-service로 로그인하여 기본 인증 정보 획득
         login_url = urljoin(self.address, "/login")
         print(f"Login URL: {login_url}")
@@ -736,7 +740,7 @@ class Query:
         contacts_id = random_from_list(contacts_result)
         if contacts_id is None:
             logger.warning("No contacts available, using default")
-            contacts_id = "4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"
+            contacts_id = env("TRAIN_TICKET_USER_UUID")
         base_preserve_payload["contactsId"] = contacts_id
 
         # 高铁 2-3

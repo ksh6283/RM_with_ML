@@ -3,15 +3,10 @@ figure_path: data_hotel/figures
 yaml_repo_path: yamlRepository/hotelReservation
 namespace: hotel-reserv
 app_img: nicklin9907/erms:hotelreservation-1.0
-nodes_for_test:
-- node6
-- node7
+nodes_for_test: [${NODES_FOR_TEST}]
 
-prometheus_host: http://<PROMETHEUS_IP>:30090
-nodes_for_infra:
-- masternode
-- node6
-- node7
+prometheus_host: ${PROMETHEUS_URL}
+nodes_for_infra: [${NODES_FOR_INFRA}]
 pod_spec:
   cpu_size: 0.1
   mem_size: 200Mi

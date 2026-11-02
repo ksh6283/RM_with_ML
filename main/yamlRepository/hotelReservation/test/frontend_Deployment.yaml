@@ -45,6 +45,6 @@ spec:
             cpu: 1000m
           requests:
             cpu: 100m
-      nodeName: node6
+      nodeName: ${FRONTEND_NODE}
       restartPolicy: Always
 status: {}

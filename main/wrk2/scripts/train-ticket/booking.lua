@@ -2,8 +2,8 @@ wrk.method = "POST"
 wrk.headers["Content-Type"] = "application/json"
 
 -- === 사용자 정보 (테스트용) ===
-local username = "fdse_microservice"
-local password = "111111"
+local username = os.getenv("TRAIN_TICKET_USER")
+local password = os.getenv("TRAIN_TICKET_PASSWORD")
 
 -- === 시나리오 전역 상태 ===
 local token = nil

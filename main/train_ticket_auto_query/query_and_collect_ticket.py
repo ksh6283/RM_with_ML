@@ -1,4 +1,4 @@
-from atomic_queries import _query_orders, _collect_one_order
+from atomic_queries import _query_orders, _collect_one_order, headers
 from utils import random_form_list
 
 
@@ -23,9 +23,4 @@ def query_and_collect_ticket(headers):
 
 
 if __name__ == '__main__':
-    headers = {
-        "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
-        "Authorization": "Bearer <REDACTED_JWT>",
-        "Content-Type": "application/json"
-    }
     query_and_collect_ticket(headers=headers)

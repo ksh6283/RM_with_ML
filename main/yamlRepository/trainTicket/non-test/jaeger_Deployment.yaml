@@ -32,9 +32,7 @@ spec:
             - matchExpressions:
               - key: kubernetes.io/hostname
                 operator: In
-                values:
-                - node6
-                - node7
+                values: [${NODES_FOR_TEST}]
       containers:
       - image: jaegertracing/all-in-one:1.54
         imagePullPolicy: IfNotPresent

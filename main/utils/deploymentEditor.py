@@ -4,10 +4,16 @@ from typing import Dict, Union
 import pandas as pd
 import yaml
 
+from local_env import expand
+
 
 def read_yaml(path):
     with open(path, "r") as file:
-        return [x for x in yaml.load_all(file, Loader=yaml.CLoader) if x is not None]
+        return [
+            x
+            for x in yaml.load_all(expand(file.read()), Loader=yaml.CLoader)
+            if x is not None
+        ]
 
 
 def read_all_yaml(folder):
@@ -17,7 +23,7 @@ def read_all_yaml(folder):
     yaml_list = []
     for file_name in yaml_files:
         with open(f"{folder}/{file_name}", "r") as file:
-            yaml_objs = yaml.load_all(file, Loader=yaml.CLoader)
+            yaml_objs = yaml.load_all(expand(file.read()), Loader=yaml.CLoader)
             yaml_list.extend([x for x in yaml_objs if x is not None])
     return yaml_list
 

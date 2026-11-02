@@ -1,4 +1,4 @@
-from atomic_queries import _query_orders, _enter_station
+from atomic_queries import _query_orders, _enter_station, headers
 from utils import random_form_list
 
 
@@ -22,9 +22,4 @@ def query_and_enter_station(headers):
 
 
 if __name__ == '__main__':
-    headers = {
-        "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
-        "Authorization": "Bearer <REDACTED_JWT>",
-        "Content-Type": "application/json"
-    }
     query_and_enter_station(headers=headers)

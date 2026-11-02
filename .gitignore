@@ -1,6 +1,8 @@
 __pycache__
 .DS_Store
 *.png
+*.log
+.env
 main/Derm-master/profiling/prediction_model/models/
 main/Derm-master/profiling/prediction_model/data/
 main/Derm-master/profiling/prediction_model/pre-processing/sample_data/

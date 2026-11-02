@@ -1,25 +1,16 @@
-from atomic_queries import _query_advanced_ticket, _login
+from atomic_queries import _query_advanced_ticket, _login, headers
 
 import logging
 import random
 import time
 
 logger = logging.getLogger("query_advanced_ticket")
-# The UUID of user fdse_microservice is that
-uuid = "4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f"
 date = time.strftime("%Y-%m-%d", time.localtime())
-
-base_address = "http://<TRAIN_TICKET_HOST>:32677"
 
 
 
 if __name__ == '__main__':
     _, token = _login()
-    headers = {
-        "Cookie": "JSESSIONID=<REDACTED>; YsbCaptcha=<REDACTED>",
-        "Authorization": "Bearer <REDACTED_JWT>",
-        "Content-Type": "application/json"
-    }
     headers["Authorization"] = "Bearer " + token
 
     start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
