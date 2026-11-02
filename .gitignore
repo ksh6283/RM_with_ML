@@ -3,9 +3,20 @@ __pycache__
 *.png
 *.log
 .env
-main/Derm-master/profiling/prediction_model/models/
-main/Derm-master/profiling/prediction_model/data/
-main/Derm-master/profiling/prediction_model/pre-processing/sample_data/
+
+# runtime outputs
+/tmp/
+/log/
+/data/erms-ae/
+tmp-ns.json
+/ksh
+
+# Derm prediction model (downloaded / generated)
+analysis/derm/profiling/prediction_model/models/
+analysis/derm/profiling/prediction_model/data/
+analysis/derm/profiling/prediction_model/pre-processing/sample_data/
+
+# external sources restored locally (see README)
 /train-ticket/
-/main/train-ticket-hskim/
+/train-ticket-hskim/
 /vagrant/
