@@ -250,18 +250,6 @@ python3 predict.py train                    # models/graph_predict.pt 저장
 python3 predict.py test
 ```
 
-### train-ticket 소스
-**수정본 (`ksh6283/ts-*` 이미지의 빌드 소스)**
-- [vaquarkhan/train-ticket](https://github.com/vaquarkhan/train-ticket/tree/master) 기반 수정본
-- 태그 `archive/train-ticket-sources`의 `main/train-ticket-hskim/`에 보관 (디렉토리 정리 이전 경로)
-```bash
-# 레포 루트에서: 태그의 main/train-ticket-hskim을 ./train-ticket-hskim으로 추출 (gitignore 대상)
-git archive archive/train-ticket-sources main/train-ticket-hskim | tar -x --strip-components=1
-cd train-ticket-hskim && mvn clean package
-./docker_build_all.sh     # 스크립트 안의 BASE_DIR, version 값을 먼저 수정
-```
-이미지를 새로 빌드했다면 `benchmarks/manifests/trainTicket/test/*-Deployment.yaml`의 이미지 태그를 갱신합니다.
-
 **원본 (참고용)**
 - [FudanSELab/train-ticket `jaeger` 브랜치](https://github.com/FudanSELab/train-ticket/tree/jaeger) @ `cab7d81`
 - 원본 대비 변경: `ts-contacts-service/Dockerfile`, `ts-verification-code-service/Dockerfile`의 `FROM java:8-jre` → `FROM openjdk:8-jre` (`java` 이미지 deprecated)
